@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+{% block title %}
+Menu
+{% endblock %}
+{% block body%}
+<div class='p-3'>
+    <table class='table-small w-75 mx-auto text-center '>
+        <caption style='caption-side:top;color:white;font-size: 30px;text-align: center'>{{Active_category}}</caption>
+        {% if Columns == 3 %}
+        <thead class='thead-light'>
+            <tr >
+                <th>Name</th>
+                <th>Small</th>
+                <th id="sign"></th>
+                <th>Large</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in Menu %} 
+            <tr>
+                {% load static %}
+                <td>{{row.name}}</td>
+                {% if row.small == None %}
+                    <td></td>
+                {% else %}
+                    <td>${{row.small}}&nbsp;</td>
+                    <td id="sign">
+                        <a href="{% url 'add' Active_category row.name row.small %}"><i class='far fa-plus-square' ></i></a>
+                    </td>
+                {% endif %}
+                <td>${{row.large}}&nbsp;</td>
+                <td>
+                    <a href="{% url 'add' Active_category row.name row.large %}"><i class='far fa-plus-square'></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        {% endif %}
+        {% if Columns == 2 %}
+        <thead class='thead-light'>
+            <tr >
+                <th>Name</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            {% for row in Menu %} 
+            <tr>
+                <td>{{row.name}}</td>
+                <td>${{row.price}}&nbsp;</td>
+                <td>
+                    <a href="{% url 'add' Active_category row.name row.price %}"><i class='far fa-plus-square'></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        {% endif %}
+        {% if Columns == 1 %}
+        <thead class='thead-light'>
+            <tr >
+                <th>Name</th>
+                <th></th>
+                <th>Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in Menu %} 
+            {% if not forloop.counter|divisibleby:"2"  %}
+            <tr>
+                <td>{{row.name}}&nbsp;</td>
+                <td>
+                    <a href="{% url 'add' Active_category row.name Topping_price  %}"><i class='far fa-plus-square'></i></a>
+                </td>
+            {% endif %}
+            {% if forloop.counter|divisibleby:"2"  %}
+                <td>{{row.name}}&nbsp;</td>
+                <td>
+                    <a href="{% url 'add' Active_category row.name Topping_price %}"><i class='far fa-plus-square'></i></a>
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+</div>
+{% if Active_category == 'Regular Pizza' or Active_category == 'Sicilian Pizza'  %}
+    <div class='text-center p-2'>
+        <h6 class='text-warning mx-auto'>Special: Double Cheese + Double Onions + Double Fresh Garlic</h6>
+{% endif %}
+{% if message %}
+        <h6 class='text-danger mx-auto '>sfgsg{{message}}</h6>
+    </div>
+{% endif %}
+{% endblock %}

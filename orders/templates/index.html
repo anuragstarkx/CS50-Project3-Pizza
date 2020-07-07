@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block title %}
+Home
+{% endblock %}
+{% block body%}
+<div class=' text-center p-5 '>
+        {% if user.is_superuser %}
+		<h1 class="text-warning">
+			Welcome!! ADMIN
+		</h1>
+		<h4>
+			Check out Order Manager to look for Orders..<br><br>
+			<a class="nav-link" href="{% url 'orders_manager' user Order_number %}"><i class='fas fa-clipboard-list' style='font-size:24px; color: white;'></i>   Order Manager</a>
+		</h4>
+	{% else %}
+	<h1 class="text-danger">
+		Only Today
+	</h1>
+	<h4>
+		new super <span class="display-3 text-danger">DEAL</span>
+	</h4>
+	<h5 class='text-warning mx-auto'><span class='text-white'>Special Pizza:</span><br><br> Double Cheese + <br> Double Onions + <br>Double Fresh Garlic</h5>
+	{% if message %}
+		<br><br>
+        <div class='text-center text-danger'>
+            <h2>{{message}}</h2>
+        </div>
+    {% endif %}
+	{% endif %}
+</div>
+{% endblock %}

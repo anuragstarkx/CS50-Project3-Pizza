@@ -1,0 +1,91 @@
+body {
+    font-family: 'Varela Round', sans-serif;
+    background: url("/static/pizza_bg.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.midbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.required {
+    color: red;
+}
+
+.vl {
+    border-left: 3px solid white;
+    height: 40px;
+}
+
+#category {
+    position: fixed;
+    top:33%;
+    width:15%;
+}
+#category a{
+    color:white;
+    background-color: rgba(152,152,152,0.6);
+}
+#category a:hover{
+    background-color: rgb(41, 41, 46);
+}
+
+#logo {
+ 
+    padding:0px;
+    font-family: webLogo ;
+    font-size: 110px;
+    text-shadow: 3px 3px 3px rgb(5, 87, 211);
+}
+#logo a:link, #place_order:link, #confirm_order:link {
+    color:rgb(28, 170, 253);}
+#logo a:visited, #place_order:visited, #confirm_order:visited {
+    color:rgb(28, 170, 253);
+}
+#logo a:hover, #place_order:hover, #confirm_order:hover {
+    color:rgb(28, 170, 253);   
+    text-decoration: none;
+}
+#logo a:active, #place_order:active, #confirm_order:active {
+    color:rgb(28, 170, 253);}
+@font-face {
+    font-family: webLogo;
+    src: url(Qwigley-Regular.ttf);
+}
+#center_box,#username {
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    margin-top: -30px;
+}
+th {
+    border-bottom: 1px solid white;
+}
+#checkout {
+    background-color: rgba(170,170,170,0.7);
+    position: fixed;
+    top:26%;
+    right:0%;
+    width:23%;
+    height: auto + 10px;
+    color: black;
+}
+.plus:hover {
+    cursor: pointer;
+}
+
+li {
+    list-style-type: none;
+}
+#place_order div:hover,#confirm_order div:hover{
+    box-shadow: 0px 0px 10px white;
+}
+#my_orders_container {
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+}
+
+
