@@ -19,4 +19,4 @@ Program automatically create superuser account at first start
 
 My personal touch allowing site administrator to mark orders as complete and allowing users to see the status of their pending or completed orders
 
-To see it working u can clone or download and run on your pc.
+# To see it working u can clone or download and run on your pc.
