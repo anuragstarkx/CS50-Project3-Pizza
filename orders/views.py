@@ -13,7 +13,7 @@ if counter==None:
     set_counter.save()
 superuser = User.objects.filter(is_superuser=True)
 if superuser.count() == 0:
-    superuser=User.objects.create_user("admin","admin@admin.com","adminadmin")
+    superuser=User.objects.create_user("username","email","password") # make sure to change these 3 parameters as per your wish before running.
     superuser.is_superuser = True
     superuser.is_staff = True
     superuser.save()
