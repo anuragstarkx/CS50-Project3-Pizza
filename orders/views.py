@@ -5,6 +5,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.db.models import Sum
 from .models import Category,Regular_pizza,Sicilian_pizza,Topping,Sub,Pasta,Salad,Dinner_platter,Order2,User_order,Order_counter
+from django.core.mail import send_mail
+from pizza import settings
 
 # Create your views here.
 counter = Order_counter.objects.first()
@@ -206,7 +208,7 @@ def my_orders(request,order_number):
         "Order_number":order_number,
         "All_orders":User_order.objects.filter(user=request.user),
         "Status":User_order.objects.get(user=request.user,order_number=order_number).status
-    }
+    }   
     return render(request,"my_orders.html",context)
 
 
@@ -238,19 +240,47 @@ def complete_order(request,user,order_number):
         "Order_number":order_number,
         "All_orders":User_order.objects.exclude(status='initiated')
     }
+    msg = "Dear " + str(user.first_name) + " " + str(user.last_name) + ",\nYour order no. " + str(order_number)
+    msg += " is completed. You will soon recieve your items.\n"
+    msg += ("\nTotal price: $" + str(list(Order2.objects.filter(user=user,number=order_number).aggregate(Sum('price')).values())[0]).strip("0"))
+    msg += "\n\nThank You for using our service.\n\nYummy and Delightful \nStarkxAG Pizza\n"
+    msg += "\n\nThis is automatic generated mail. Please don\'t reply to this mail."
+    try:
+        subject = "Order no. : " + order_number + " completed."  
+        to = user.email
+        send_mail(subject, msg, settings.EMAIL_HOST_USER, [to])
+        msg = 'Mail sent successfully'
+    except Exception:
+        msg = 'Mail couldnot be sent'
+    print(msg)
     return render(request,"orders_manager.html",context)
 
 def confirmed(request,order_number):
     status=User_order.objects.get(user=request.user,status='initiated')
     status.status='pending'
     status.save()
-
+    msg = ""
     counter=Order_counter.objects.first()
     new_order_number=User_order(user=request.user,order_number=counter.counter)
     new_order_number.save()
     counter.counter=counter.counter+1
     counter.save()
-    
+    user = User.objects.get(username=request.user)
+    msg = "Dear " + str(user.first_name) + " " + str(user.last_name) + ",\nYour order no. is " + str(order_number) + ".\n\nFollowing are your items: \n"
+    chk = Order2.objects.filter(user=request.user,number=order_number)
+    for row in chk:
+        msg += (str(row.category) + ": " + str(row) + "\n")
+    msg += ("\nTotal price: $" + str(list(Order2.objects.filter(user=user,number=order_number).aggregate(Sum('price')).values())[0]).strip("0"))
+    msg += "\n\nThank You for using our service.\n\nYummy and Delightful \nStarkxAG Pizza\n"
+    msg += "\n\nThis is automatic generated mail. Please don\'t reply to this mail."
+    try:
+        subject = "Order no. : " + order_number + " confirmed."  
+        to = user.email
+        send_mail(subject, msg, settings.EMAIL_HOST_USER, [to])
+        msg = 'Mail sent successfully'
+    except Exception:
+        msg = 'Mail couldnot be sent'
+    print(msg)
     return my_orders(request,order_number)
     #return render(request,"my_orders.html",context)
 
@@ -278,3 +308,15 @@ def findTable(category):
         columns=3
 
     return menu,columns
+
+def mail(request):
+    try:
+        subject = "Greetings"  
+        msg = "Congratulations for your success"  
+        to = "anuragxprime@gmail.com"  
+        send_mail(subject, msg, settings.EMAIL_HOST_USER, [to])
+        print("mail")
+        msg = 'Mail sent successfully'
+    except Exception:
+        msg = 'Mail couldnot be sent'
+    return HttpResponse(msg)
