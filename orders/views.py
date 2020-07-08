@@ -308,15 +308,3 @@ def findTable(category):
         columns=3
 
     return menu,columns
-
-def mail(request):
-    try:
-        subject = "Greetings"  
-        msg = "Congratulations for your success"  
-        to = "anuragxprime@gmail.com"  
-        send_mail(subject, msg, settings.EMAIL_HOST_USER, [to])
-        print("mail")
-        msg = 'Mail sent successfully'
-    except Exception:
-        msg = 'Mail couldnot be sent'
-    return HttpResponse(msg)
